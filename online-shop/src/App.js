@@ -6,6 +6,7 @@ import Privacy from './Components/Privacy/Privacy';
 import Contact from './Components/Contact/Contact';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
+import Products from './Components/Products/Products';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="products" element={<Products />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="privacy" element={<Privacy />} />

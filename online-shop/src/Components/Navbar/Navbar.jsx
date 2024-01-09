@@ -9,7 +9,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -17,9 +17,10 @@ import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Login', 'SignUp', 'Privacy', 'Contact'];
+const navItems = ['Home', 'Products', 'Login', 'SignUp', 'Privacy', 'Contact'];
 
 function Navbar(props) {
   const { window } = props;
@@ -40,7 +41,7 @@ function Navbar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        BNM
       </Typography>
       <Divider />
       <List>
@@ -121,6 +122,7 @@ function Navbar(props) {
           >
             BNM
           </Typography>
+          <LocalMallIcon />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
