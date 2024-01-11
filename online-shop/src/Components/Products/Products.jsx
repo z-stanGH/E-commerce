@@ -1,5 +1,20 @@
-import { ImageList, ImageListItem } from '@mui/material';
-import React from 'react';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Grid } from '@mui/material';
 
 const imagesContext = require.context(
   '../../Products-images',
@@ -11,29 +26,83 @@ const imageFileNames = imagesContext.keys();
 
 const imagesArray = imageFileNames.map((fileName) => imagesContext(fileName));
 
-const Products = () => {
-  const numColumns = 3;
-  const viewportWidth = window.innerWidth;
-  const rowHeight = Math.floor((viewportWidth / numColumns) * 0.75);
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+
+export default function RecipeReviewCard() {
+  const [expanded, setExpanded] = React.useState({});
+
+  const handleExpandClick = (index) => {
+    setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
 
   return (
-    <ImageList
-      sx={{ width: '100%', height: '100vh' }}
-      cols={numColumns}
-      rowHeight={rowHeight}
+    <Grid
+      container
+      rowSpacing={1}
+      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+      sx={{ padding: 2 }}
     >
-      {imagesArray.map((item) => (
-        <ImageListItem key={item.img}>
-          <img
-            srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item}?w=164&h=164&fit=crop&auto=format`}
-            alt={item.title}
-            loading="lazy"
-          />
-        </ImageListItem>
+      {imagesArray.map((item, index) => (
+        <Grid item key={index}>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  R
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title="Shrimp and Chorizo Paella"
+              subheader="September 14, 2016"
+            />
+            <CardMedia
+              component="img"
+              height="194"
+              image={item}
+              alt="Paella dish"
+            />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                This impressive paella is a perfect party dish and a fun meal to
+                cook together with your guests. Add 1 cup of frozen peas along
+                with the mussels, if you like.
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <ExpandMore
+                expand={expanded[index]}
+                onClick={() => handleExpandClick(index)}
+                aria-expanded={expanded[index]}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded[index]} timeout="auto" unmountOnExit>
+              <CardContent>{/* Your expanded content goes here */}</CardContent>
+            </Collapse>
+          </Card>
+        </Grid>
       ))}
-    </ImageList>
+    </Grid>
   );
-};
-
-export default Products;
+}
