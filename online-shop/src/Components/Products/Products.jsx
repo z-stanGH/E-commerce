@@ -53,49 +53,57 @@ export default function RecipeReviewCard() {
       columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       sx={{ padding: 2 }}
     >
-      {products.map((item, index) => (
-        <Grid item key={item.id}>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardHeader
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
+      {products
+        .sort(function (a, b) {
+          const keyA = a.id,
+            keyB = b.id;
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        })
+        .map((item, index) => (
+          <Grid item key={item.id}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardHeader
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={item.title}
+                subheader={item.subtitle}
+              />
+              <CardMedia
+                component="img"
+                height="194"
+                image={item.image}
+                alt={item.title}
+              />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {item.description}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to cart">
+                  <AddShoppingCartIcon />
                 </IconButton>
-              }
-              title={item.title}
-              subheader={item.subtitle}
-            />
-            <CardMedia
-              component="img"
-              height="194"
-              image={item.image}
-              alt={item.title}
-            />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {item.description}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to cart">
-                <AddShoppingCartIcon />
-              </IconButton>
-              <Typography>{item.price}</Typography>
-              <ExpandMore
-                expand={expanded[index]}
-                onClick={() => handleExpandClick(index)}
-                aria-expanded={expanded[index]}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded[index]} timeout="auto" unmountOnExit>
-              <CardContent>{item.facts}</CardContent>
-            </Collapse>
-          </Card>
-        </Grid>
-      ))}
+                <Typography>{item.price}</Typography>
+                <ExpandMore
+                  expand={expanded[index]}
+                  onClick={() => handleExpandClick(index)}
+                  aria-expanded={expanded[index]}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              </CardActions>
+              <Collapse in={expanded[index]} timeout="auto" unmountOnExit>
+                <CardContent>{item.facts}</CardContent>
+              </Collapse>
+            </Card>
+          </Grid>
+        ))}
     </Grid>
   );
 }
