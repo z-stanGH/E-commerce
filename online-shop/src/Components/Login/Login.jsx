@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../Services/auth.services';
+//import { auth } from '../../Config/firebase-config';
 
 function Copyright(props) {
   return (
@@ -34,13 +37,34 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const userData = new FormData(event.currentTarget);
+    const email = userData.get('email');
+    const password = userData.get('password');
+    const data = await loginUser(email, password);
+    //const currentUser = auth.currentUser;
+    if (data.user) {
+      console.log('Login successful!');
+      navigate('/');
+    }
+    // else if (data.user && !currentUser.emailVerified) {
+    //   console.error('Please verify your email first!');
+    // }
+    else {
+      console.error(data.error);
+    }
   };
 
   return (

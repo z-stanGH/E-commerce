@@ -4,10 +4,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
+import { ref, set, update } from 'firebase/database';
 import toast from 'react-hot-toast';
 
-import { updateUserIsLogged } from './users.services';
+//import { updateUserIsLogged } from './users.services';
 import { auth, db } from '../Config/firebase-config';
 
 export const verifyUser = async (user) => {
@@ -17,6 +17,12 @@ export const verifyUser = async (user) => {
   } catch (error) {
     toast.error('Something went wrong. Please, try again.');
   }
+};
+
+export const updateUserIsLogged = async (uid, isLogged) => {
+  return update(ref(db), {
+    [`users/${uid}/isLogged`]: isLogged,
+  });
 };
 
 export const registerUser = async (firstName, lastName, email, password) => {
