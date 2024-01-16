@@ -7,6 +7,7 @@ import Contact from './Components/Contact/Contact';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
 import Products from './Components/Products/Products';
+import Logout from './Components/Logout/Logout';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="signup" element={<Signup />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="logout" element={<Logout />} />
         </Routes>
       </Router>
     </div>

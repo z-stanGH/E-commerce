@@ -18,9 +18,14 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import { auth } from '../../Config/firebase-config';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Products', 'Login', 'SignUp', 'Privacy', 'Contact'];
+let state = '';
+if (auth?.currentUser?.uid) {
+  state = 'Logout';
+} else state = 'Login';
+const navItems = ['Home', 'Products', state, 'Privacy', 'Contact'];
 
 function Navbar(props) {
   const { window } = props;
