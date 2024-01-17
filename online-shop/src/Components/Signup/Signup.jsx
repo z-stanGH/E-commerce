@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../../Services/auth.services';
+import toast from 'react-hot-toast';
 
 function Copyright(props) {
   return (
@@ -34,13 +37,25 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const userData = new FormData(event.currentTarget);
+    const firstName = userData.get('firstName');
+    const lastName = userData.get('lastName');
+    const email = userData.get('email');
+    const password = userData.get('password');
+    const data = await registerUser(firstName, lastName, email, password);
+
+    if (data?.user) {
+      toast.success(
+        'Registration successful! Please, verify your account via sent email!'
+      );
+      navigate('/login');
+    } else if (data?.error) {
+      toast.error('Something went wrong! Please try again!');
+    }
   };
 
   return (

@@ -21,6 +21,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { auth } from '../../Config/firebase-config';
 
 const drawerWidth = 240;
+//To Do: Managing user state. IsLogged or not + verifyEmail fix issues
 let state = '';
 if (auth?.currentUser?.uid) {
   state = 'Logout';
@@ -120,13 +121,14 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Button variant="contained" href="/">
+            BNM
+          </Button>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            BNM
-          </Typography>
+          ></Typography>
           <LocalMallIcon />
           <Search>
             <SearchIconWrapper>
