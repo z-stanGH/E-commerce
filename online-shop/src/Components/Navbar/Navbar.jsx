@@ -22,17 +22,22 @@ import { auth } from '../../Config/firebase-config';
 
 const drawerWidth = 240;
 //To Do: Managing user state. IsLogged or not + verifyEmail fix issues
-let state = '';
-if (auth?.currentUser?.uid) {
-  state = 'Logout';
-} else state = 'Login';
-const navItems = ['Home', 'Products', state, 'Privacy', 'Contact'];
 
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
-
+  const [logState, setLogState] = React.useState('');
+  //
+  React.useEffect(() => {
+    if (auth?.currentUser?.uid) {
+      setLogState('Logout');
+    } else setLogState('Login');
+  });
+  // if (auth?.currentUser?.uid) {
+  //   state = 'Logout';
+  // } else state = 'Login';
+  const navItems = ['Home', 'Products', logState, 'Privacy', 'Contact'];
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };

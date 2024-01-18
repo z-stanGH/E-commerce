@@ -70,6 +70,7 @@ export const loginUser = async (email, password) => {
     );
     // Signed in
     const user = userCredential.user;
+    await updateUserIsLogged(user?.uid, true);
     return { user: user?.uid };
   } catch (error) {
     console.error('Login error:', error);
