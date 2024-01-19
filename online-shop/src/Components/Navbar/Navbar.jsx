@@ -19,21 +19,38 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { auth } from '../../Config/firebase-config';
+import { Avatar } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
+import { getUserByID } from '../../Services/user.services';
 
 const drawerWidth = 240;
-//To Do: Managing user state. IsLogged or not + verifyEmail fix issues
 
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
   const [logState, setLogState] = React.useState('');
-  //
+  const [user, setUser] = React.useState('');
+
   React.useEffect(() => {
-    if (auth?.currentUser?.uid) {
-      setLogState('Logout');
-    } else setLogState('Login');
-  });
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLogState('Logout');
+        const getUser = async () => {
+          const data = await getUserByID(user.uid);
+          setUser(data);
+        };
+        getUser();
+      } else {
+        setLogState('Login');
+        setUser(null);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   // if (auth?.currentUser?.uid) {
   //   state = 'Logout';
   // } else state = 'Login';
@@ -129,6 +146,11 @@ function Navbar(props) {
           <Button variant="contained" href="/">
             BNM
           </Button>
+          {user?.isLogged && (
+            <Avatar sx={{ bgcolor: deepPurple[400] }}>
+              {user.firstName[0] + user.lastName[0]}
+            </Avatar>
+          )}
           <Typography
             variant="h6"
             component="div"
