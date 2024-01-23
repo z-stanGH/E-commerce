@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
 import Products from './Components/Products/Products';
 import Logout from './Components/Logout/Logout';
+import ShoppingCart from './Components/ShoppingCart/ShoppingCart';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="privacy" element={<Privacy />} />
           <Route path="contact" element={<Contact />} />
           <Route path="logout" element={<Logout />} />
+          <Route path="cart" element={<ShoppingCart />} />
         </Routes>
       </Router>
     </div>

@@ -66,6 +66,10 @@ function Navbar(props) {
     } else navigate(`/${pageName}`);
   };
 
+  const handleShowCart = () => {
+    navigate('/cart');
+  };
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -143,7 +147,7 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Button variant="contained" href="/">
+          <Button href="/" style={{ color: 'white' }}>
             BNM
           </Button>
           {user?.isLogged && (
@@ -156,7 +160,12 @@ function Navbar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           ></Typography>
-          <LocalMallIcon />
+          <IconButton
+            style={{ color: 'white', padding: 0 }}
+            onClick={() => handleShowCart()}
+          >
+            <LocalMallIcon />
+          </IconButton>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
