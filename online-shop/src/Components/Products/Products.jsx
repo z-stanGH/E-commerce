@@ -12,8 +12,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
-import { getAllProducts } from '../../Services/products.services';
+import { addToCart, getAllProducts } from '../../Services/products.services';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { auth } from '../../Config/firebase-config';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -85,7 +86,10 @@ export default function RecipeReviewCard() {
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to cart">
+                <IconButton
+                  aria-label="add to cart"
+                  onClick={() => addToCart(auth?.currentUser?.uid, item.id)}
+                >
                   <AddShoppingCartIcon />
                 </IconButton>
                 <Typography>{item.price}</Typography>
