@@ -21,7 +21,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { auth } from '../../Config/firebase-config';
 import { Avatar } from '@mui/material';
 import { getUserByID } from '../../Services/user.services';
-import logoImage from '../../Images/Favicon Transparent.ico';
+import logoImage from '../../Images/Wordpress Transparent.png';
 
 const drawerWidth = 240;
 
@@ -211,9 +211,9 @@ function Navbar(props) {
       </nav>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        <Typography>
+        {/* <Typography>
           <p>Some text</p>
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );
