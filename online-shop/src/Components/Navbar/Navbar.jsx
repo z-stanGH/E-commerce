@@ -20,8 +20,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { auth } from '../../Config/firebase-config';
 import { Avatar } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
 import { getUserByID } from '../../Services/user.services';
+import logoImage from '../../Images/Favicon Transparent.ico';
 
 const drawerWidth = 240;
 
@@ -51,9 +51,7 @@ function Navbar(props) {
       unsubscribe();
     };
   }, []);
-  // if (auth?.currentUser?.uid) {
-  //   state = 'Logout';
-  // } else state = 'Login';
+
   const navItems = ['Home', 'Products', logState, 'Privacy', 'Contact'];
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -136,7 +134,10 @@ function Navbar(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar
+        component="nav"
+        sx={{ backgroundColor: '#023620', color: '#CD8E33' }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -147,11 +148,11 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Button href="/" style={{ color: 'white' }}>
-            BNM
-          </Button>
+          <IconButton href="/">
+            <Avatar src={logoImage} />
+          </IconButton>
           {user?.isLogged && (
-            <Avatar sx={{ bgcolor: deepPurple[400] }}>
+            <Avatar sx={{ bgcolor: '#023620', color: '#CD8E33' }}>
               {user.firstName[0] + user.lastName[0]}
             </Avatar>
           )}
@@ -161,7 +162,7 @@ function Navbar(props) {
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           ></Typography>
           <IconButton
-            style={{ color: 'white', padding: 0 }}
+            style={{ color: '#CD8E33', padding: 0 }}
             onClick={() => handleShowCart()}
           >
             <LocalMallIcon />
@@ -179,7 +180,7 @@ function Navbar(props) {
             {navItems.map((item) => (
               <Button
                 key={item}
-                sx={{ color: '#fff' }}
+                sx={{ color: '#CD8E33' }}
                 onClick={() => handleLinkToPage(item)}
               >
                 {item}
