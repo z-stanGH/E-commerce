@@ -7,8 +7,9 @@ const Home = () => {
       <img
         srcSet={`${homeImage}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
         src={`${homeImage}?w=164&h=164&fit=crop&auto=format`}
-        alt={homeImage.title}
+        alt="Home"
         loading="lazy"
+        style={{ maxWidth: '100%', height: 'auto' }}
       />
 
       <div>Home</div>

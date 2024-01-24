@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Paper,
   List,
@@ -11,27 +11,13 @@ import {
   Divider,
 } from '@mui/material';
 import Checkout from '../Checkout/Checkout';
+import { getAllCartItems } from '../../Services/products.services';
+import { auth } from '../../Config/firebase-config';
 // import { Link } from 'react-router-dom';
 
 const ShoppingCart = () => {
   // Dummy data for demonstration purposes
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: 'Product 1',
-      price: 10.99,
-      quantity: 2,
-      image: 'product1.jpg',
-    },
-    {
-      id: 2,
-      title: 'Product 2',
-      price: 19.99,
-      quantity: 1,
-      image: 'product2.jpg',
-    },
-    // Add more items as needed
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
   //   const calculateTotal = () => {
   //     return cartItems.reduce(
@@ -52,6 +38,20 @@ const ShoppingCart = () => {
   //       </Typography>
   //     );
   //   }
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productsData = await getAllCartItems(auth?.currentUser?.uid);
+        console.log('Data: ' + productsData);
+        setCartItems(productsData);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <Grid container spacing={3}>
@@ -74,7 +74,7 @@ const ShoppingCart = () => {
                         variant="body2"
                         color="textPrimary"
                       >
-                        Price: ${item.price.toFixed(2)}
+                        Price: ${item.price}
                       </Typography>
                       <br />
                       <Typography

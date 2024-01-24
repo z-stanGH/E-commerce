@@ -62,3 +62,12 @@ export const addToCart = async (userId, itemId) => {
   await update(ref(db), updates);
   console.log('Data updated successfully');
 };
+
+export const getAllCartItems = async (userId) => {
+  return get(ref(db, `carts/${userId}/items`)).then((snapshot) => {
+    if (!snapshot.exists()) {
+      return [];
+    }
+    return Object.values(snapshot.val());
+  });
+};
