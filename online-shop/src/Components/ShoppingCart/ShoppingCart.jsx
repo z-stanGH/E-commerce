@@ -9,22 +9,24 @@ import {
   Typography,
   Grid,
   Divider,
+  IconButton,
 } from '@mui/material';
 import Checkout from '../Checkout/Checkout';
 import { getAllCartItems } from '../../Services/products.services';
 import { auth } from '../../Config/firebase-config';
 // import { Link } from 'react-router-dom';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 const ShoppingCart = () => {
-  // Dummy data for demonstration purposes
   const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  //   const calculateTotal = () => {
-  //     return cartItems.reduce(
-  //       (total, item) => total + item.price * item.quantity,
-  //       0
-  //     );
-  //   };
+  const calculateTotal = (items) => {
+    return items.reduce(
+      (total, item) => total + item.price.slice(0, 2) * item.quantity,
+      0
+    );
+  };
 
   //   function Copyright() {
   //     return (
@@ -45,6 +47,8 @@ const ShoppingCart = () => {
         const productsData = await getAllCartItems(auth?.currentUser?.uid);
         console.log('Data: ' + productsData);
         setCartItems(productsData);
+        const price = calculateTotal(productsData);
+        setTotal(price);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -58,6 +62,7 @@ const ShoppingCart = () => {
       <Grid item xs={8}>
         <Paper elevation={3} style={{ padding: '20px' }}>
           <Typography variant="h5">Shopping Cart</Typography>
+          <Typography variant="h5">Total: {total}.00лв</Typography>
           <Divider style={{ margin: '10px 0' }} />
           <List>
             {cartItems.map((item) => (
@@ -74,7 +79,9 @@ const ShoppingCart = () => {
                         variant="body2"
                         color="textPrimary"
                       >
-                        Price: ${item.price}
+                        Price:{' '}
+                        {Number(item.quantity) * Number(item.price.slice(0, 2))}
+                        .00лв
                       </Typography>
                       <br />
                       <Typography
@@ -84,6 +91,9 @@ const ShoppingCart = () => {
                       >
                         Quantity: {item.quantity}
                       </Typography>
+                      <IconButton>
+                        <RemoveShoppingCartIcon key={item.id} />
+                      </IconButton>
                     </>
                   }
                 />
