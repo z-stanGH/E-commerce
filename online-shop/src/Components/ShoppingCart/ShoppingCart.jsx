@@ -10,9 +10,14 @@ import {
   Grid,
   Divider,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import Checkout from '../Checkout/Checkout';
-import { getAllCartItems } from '../../Services/products.services';
+import {
+  getAllCartItems,
+  onCartChange,
+  removeFromCart,
+} from '../../Services/products.services';
 import { auth } from '../../Config/firebase-config';
 // import { Link } from 'react-router-dom';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
@@ -42,20 +47,36 @@ const ShoppingCart = () => {
   //   }
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const userId = auth?.currentUser?.uid;
+
+    if (!userId) {
+      return;
+    }
+
+    const fetchCartItems = async () => {
       try {
-        const productsData = await getAllCartItems(auth?.currentUser?.uid);
-        console.log('Data: ' + productsData);
+        const productsData = await getAllCartItems(userId);
         setCartItems(productsData);
         const price = calculateTotal(productsData);
         setTotal(price);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching cart items:', error);
       }
     };
 
-    fetchProducts();
+    fetchCartItems();
+
+    const unsubscribe = onCartChange(userId, (items) => {
+      setCartItems(items);
+      const price = calculateTotal(items);
+      setTotal(price);
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
+  // removed dependency auth?.currentUser?.uid;
 
   return (
     <Grid container spacing={3}>
@@ -91,9 +112,16 @@ const ShoppingCart = () => {
                       >
                         Quantity: {item.quantity}
                       </Typography>
-                      <IconButton>
-                        <RemoveShoppingCartIcon key={item.id} />
-                      </IconButton>
+                      <Tooltip disableFocusListener title="Remove from cart">
+                        <IconButton
+                          aria-label="remove from cart"
+                          onClick={() =>
+                            removeFromCart(auth?.currentUser?.uid, item.id)
+                          }
+                        >
+                          <RemoveShoppingCartIcon key={item.id} />
+                        </IconButton>
+                      </Tooltip>
                     </>
                   }
                 />

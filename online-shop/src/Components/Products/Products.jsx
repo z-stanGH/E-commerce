@@ -9,8 +9,14 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid } from '@mui/material';
+import {
+  Backdrop,
+  Button,
+  ButtonBase,
+  CircularProgress,
+  Grid,
+  Tooltip,
+} from '@mui/material';
 import { useEffect } from 'react';
 import { addToCart, getAllProducts } from '../../Services/products.services';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -30,6 +36,14 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState({});
   const [products, setProducts] = React.useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleExpandClick = (index) => {
     setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -67,9 +81,19 @@ export default function RecipeReviewCard() {
             <Card sx={{ maxWidth: 345 }}>
               <CardHeader
                 action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
+                  <ButtonBase>
+                    <Button onClick={handleOpen}>Details</Button>
+                    <Backdrop
+                      sx={{
+                        color: '#fff',
+                        zIndex: (theme) => theme.zIndex.drawer + 1,
+                      }}
+                      open={open}
+                      onClick={handleClose}
+                    >
+                      <CircularProgress color="inherit" />
+                    </Backdrop>
+                  </ButtonBase>
                 }
                 title={item.title}
                 subheader={item.subtitle}
@@ -86,12 +110,14 @@ export default function RecipeReviewCard() {
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton
-                  aria-label="add to cart"
-                  onClick={() => addToCart(auth?.currentUser?.uid, item.id)}
-                >
-                  <AddShoppingCartIcon />
-                </IconButton>
+                <Tooltip disableFocusListener title="Add to cart">
+                  <IconButton
+                    aria-label="add to cart"
+                    onClick={() => addToCart(auth?.currentUser?.uid, item.id)}
+                  >
+                    <AddShoppingCartIcon />
+                  </IconButton>
+                </Tooltip>
                 <Typography>{item.price}</Typography>
                 <ExpandMore
                   expand={expanded[index]}
