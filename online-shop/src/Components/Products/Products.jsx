@@ -9,18 +9,12 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-  Backdrop,
-  Button,
-  ButtonBase,
-  CircularProgress,
-  Grid,
-  Tooltip,
-} from '@mui/material';
+import { Backdrop, Button, ButtonBase, Grid, Tooltip } from '@mui/material';
 import { useEffect } from 'react';
 import { addToCart, getAllProducts } from '../../Services/products.services';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { auth } from '../../Config/firebase-config';
+import DetailedInfo from '../DetailedInfo/DetailedInfo';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -80,9 +74,12 @@ export default function RecipeReviewCard() {
           <Grid item key={item.id}>
             <Card sx={{ maxWidth: 345 }}>
               <CardHeader
+                sx={{ color: '#023620' }}
                 action={
                   <ButtonBase>
-                    <Button onClick={handleOpen}>Details</Button>
+                    <Button sx={{ color: '#CD8E33' }} onClick={handleOpen}>
+                      Details
+                    </Button>
                     <Backdrop
                       sx={{
                         color: '#fff',
@@ -91,7 +88,11 @@ export default function RecipeReviewCard() {
                       open={open}
                       onClick={handleClose}
                     >
-                      <CircularProgress color="inherit" />
+                      {/* <CircularProgress color="inherit" /> */}
+                      <DetailedInfo
+                        userId={auth?.currentUser?.uid}
+                        itemId={item.id}
+                      />
                     </Backdrop>
                   </ButtonBase>
                 }
