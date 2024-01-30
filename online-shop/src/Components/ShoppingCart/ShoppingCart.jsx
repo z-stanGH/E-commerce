@@ -14,13 +14,15 @@ import {
 } from '@mui/material';
 import Checkout from '../Checkout/Checkout';
 import {
+  addToCart,
   getAllCartItems,
   onCartChange,
   removeFromCart,
 } from '../../Services/products.services';
 import { auth } from '../../Config/firebase-config';
 // import { Link } from 'react-router-dom';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -105,21 +107,25 @@ const ShoppingCart = () => {
                         .00лв
                       </Typography>
                       <br />
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        color="textPrimary"
-                      >
-                        Quantity: {item.quantity}
-                      </Typography>
-                      <Tooltip disableFocusListener title="Remove from cart">
+                      <Tooltip disableFocusListener title="Remove quantity">
                         <IconButton
                           aria-label="remove from cart"
                           onClick={() =>
                             removeFromCart(auth?.currentUser?.uid, item.id)
                           }
                         >
-                          <RemoveShoppingCartIcon key={item.id} />
+                          <RemoveIcon key={item.id} />
+                        </IconButton>
+                      </Tooltip>
+                      <Typography component="span">{item.quantity}</Typography>
+                      <Tooltip disableFocusListener title="Add quantity">
+                        <IconButton
+                          aria-label="add from cart"
+                          onClick={() =>
+                            addToCart(auth?.currentUser?.uid, item.id)
+                          }
+                        >
+                          <AddIcon key={item.id} />
                         </IconButton>
                       </Tooltip>
                     </>

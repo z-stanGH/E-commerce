@@ -5,8 +5,11 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../Config/firebase-config';
 
 export default function TitlebarImageList() {
+  const navigate = useNavigate();
   return (
     <ImageList sx={{ width: 900, height: 700 }}>
       <ImageListItem key="Subheader" cols={2}>
@@ -33,7 +36,14 @@ export default function TitlebarImageList() {
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${item.title}`}
               >
-                <InfoIcon />
+                <InfoIcon
+                  onClick={
+                    () =>
+                      navigate(
+                        `/recipes/${auth?.currentUser?.uid}/${item.title}`
+                      ) //Here I should change item.title with item.id from the database.
+                  }
+                />
               </IconButton>
             }
           />
