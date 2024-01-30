@@ -209,7 +209,7 @@ function Navbar(props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }}>
+      <Box component="main" sx={{ backgroundColor: '#023620' }}>
         <Toolbar />
         {/* <Typography>
           <p>Some text</p>
