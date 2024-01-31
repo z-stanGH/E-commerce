@@ -20,7 +20,6 @@ import {
   removeFromCart,
 } from '../../Services/products.services';
 import { auth } from '../../Config/firebase-config';
-// import { Link } from 'react-router-dom';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -82,8 +81,8 @@ const ShoppingCart = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={8}>
-        <Paper elevation={3} style={{ padding: '20px' }}>
+      <Grid item xs={12} md={8}>
+        <Paper elevation={3} style={{ padding: '20px', minHeight: '100%' }}>
           <Typography variant="h5">Shopping Cart</Typography>
           <Typography variant="h5">Total: {total}.00лв</Typography>
           <Divider style={{ margin: '10px 0' }} />
@@ -136,7 +135,7 @@ const ShoppingCart = () => {
           </List>
         </Paper>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <Checkout />
       </Grid>
       {/* <Copyright /> */}
