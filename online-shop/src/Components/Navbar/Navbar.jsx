@@ -14,9 +14,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
+// import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import { auth } from '../../Config/firebase-config';
 import { Avatar } from '@mui/material';
@@ -31,6 +31,8 @@ function Navbar(props) {
   const navigate = useNavigate();
   const [logState, setLogState] = React.useState('');
   const [user, setUser] = React.useState('');
+
+  const [queryVal, setQueryVal] = React.useState('');
 
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -68,6 +70,20 @@ function Navbar(props) {
     navigate('/cart');
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setQueryVal(e.target.value);
+    console.log('Search:', e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      navigate(`/search/${queryVal}`);
+    }
+    setQueryVal('');
+  };
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -89,47 +105,47 @@ function Navbar(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
+  // const Search = styled('div')(({ theme }) => ({
+  //   position: 'relative',
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
+  //   '&:hover': {
+  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
+  //   },
+  //   marginLeft: 0,
+  //   width: '100%',
+  //   [theme.breakpoints.up('sm')]: {
+  //     marginLeft: theme.spacing(1),
+  //     width: 'auto',
+  //   },
+  // }));
 
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
+  // const SearchIconWrapper = styled('div')(({ theme }) => ({
+  //   padding: theme.spacing(0, 2),
+  //   height: '100%',
+  //   position: 'absolute',
+  //   pointerEvents: 'none',
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // }));
 
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
-      },
-    },
-  }));
+  // const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  //   color: 'inherit',
+  //   width: '100%',
+  //   '& .MuiInputBase-input': {
+  //     padding: theme.spacing(1, 1, 1, 0),
+  //     // vertical padding + font size from searchIcon
+  //     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  //     transition: theme.transitions.create('width'),
+  //     [theme.breakpoints.up('sm')]: {
+  //       width: '12ch',
+  //       '&:focus': {
+  //         width: '20ch',
+  //       },
+  //     },
+  //   },
+  // }));
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -167,15 +183,33 @@ function Navbar(props) {
           >
             <LocalMallIcon />
           </IconButton>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearch}
+              value={queryVal}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleSubmit(event);
+                }
+              }}
             />
-          </Search>
+          </Search> */}
+          <InputBase
+            sx={{ color: '#CD8E33' }}
+            placeholder="Search..."
+            onChange={handleSearch}
+            value={queryVal}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                handleSubmit(event);
+              }
+            }}
+          ></InputBase>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button

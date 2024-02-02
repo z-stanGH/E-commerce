@@ -10,6 +10,7 @@ import Products from './Components/Products/Products';
 import Logout from './Components/Logout/Logout';
 import ShoppingCart from './Components/ShoppingCart/ShoppingCart';
 import Recipes from './Components/Recipes/Recipes';
+import Search from './Components/SearchView/Search';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="logout" element={<Logout />} />
           <Route path="cart" element={<ShoppingCart />} />
           <Route path="recipes/:userId/:itemId" element={<Recipes />} />
+          <Route path="search/:query" element={<Search />} />
         </Routes>
       </Router>
     </div>
