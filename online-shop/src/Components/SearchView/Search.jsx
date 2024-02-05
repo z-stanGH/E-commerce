@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { getAllProducts } from '../../Services/products.services';
 import ProductsView from '../ProductsView/ProductsView';
 import { useParams } from 'react-router';
+import { Box, Typography } from '@mui/material';
 
 export default function Search() {
   const [results, setResults] = React.useState([]);
@@ -30,5 +31,12 @@ export default function Search() {
 
     fetchProducts();
   }, [params.query]);
-  return <ProductsView products={results} />;
+  if (results.length > 0) {
+    return <ProductsView products={results} />;
+  }
+  return (
+    <Box>
+      <Typography>No matching results for {params.query}</Typography>
+    </Box>
+  );
 }

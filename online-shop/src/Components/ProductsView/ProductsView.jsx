@@ -9,11 +9,12 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Backdrop, Button, ButtonBase, Grid, Tooltip } from '@mui/material';
+import { Button, ButtonBase, Grid, Tooltip } from '@mui/material';
 import { addToCart } from '../../Services/products.services';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { auth } from '../../Config/firebase-config';
-import DetailedInfo from '../DetailedInfo/DetailedInfo';
+
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,16 +29,13 @@ const ExpandMore = styled((props) => {
 
 export default function ProductsView({ products }) {
   const [expanded, setExpanded] = React.useState({});
+  const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
   const handleExpandClick = (index) => {
     setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+  const handleClick = (id) => {
+    navigate(`/products/${id}`);
   };
 
   return (
@@ -62,23 +60,12 @@ export default function ProductsView({ products }) {
                 sx={{ color: '#023620' }}
                 action={
                   <ButtonBase>
-                    <Button sx={{ color: '#CD8E33' }} onClick={handleOpen}>
+                    <Button
+                      sx={{ color: '#CD8E33' }}
+                      onClick={() => handleClick(item.id)}
+                    >
                       Details
                     </Button>
-                    <Backdrop
-                      sx={{
-                        color: '#fff',
-                        zIndex: (theme) => theme.zIndex.drawer + 1,
-                      }}
-                      open={open}
-                      onClick={handleClose}
-                    >
-                      {/* <CircularProgress color="inherit" /> */}
-                      <DetailedInfo
-                        userId={auth?.currentUser?.uid}
-                        itemId={item.id}
-                      />
-                    </Backdrop>
                   </ButtonBase>
                 }
                 title={item.title}

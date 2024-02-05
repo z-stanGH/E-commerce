@@ -12,7 +12,9 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (itemId) => {
   const products = await getAllProducts();
-  return products.filter((item) => item.id === itemId);
+
+  const product = products.filter((item) => item.id === itemId);
+  return product || null;
 };
 
 export const setCartByUserId = async (userId) => {
