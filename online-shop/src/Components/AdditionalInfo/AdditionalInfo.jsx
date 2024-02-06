@@ -25,79 +25,81 @@ const AdditionalInfo = () => {
     };
     fetchProduct();
   }, [params.itemId]);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
-        <Paper>
-          <img
-            src={product[0]?.info?.image}
-            alt="Sample"
-            style={{
-              width: '100%',
-              height: 'auto',
-              maxWidth: '100%',
-              maxHeight: '500px',
-              objectFit: 'cover',
-            }}
-          />
-        </Paper>
+        <img
+          src={product[0]?.info?.image}
+          alt="Sample"
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxWidth: '100%',
+            maxHeight: '500px',
+            objectFit: 'cover',
+          }}
+        />
       </Grid>
       <Grid item xs={12} md={6}>
-        <Paper>
-          <Typography variant="h5">Полезна информация за продукта</Typography>
-          <Typography>{product[0]?.info?.description}</Typography>
-        </Paper>
+        <Typography variant="h5" sx={{ paddingLeft: 2 }}>
+          Полезна информация за продукта
+        </Typography>
+        <Typography sx={{ padding: 2 }}>
+          {product[0]?.info?.description}
+        </Typography>
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Paper>
-          <Typography variant="h5">Откъде идва месото</Typography>
-          <Typography>{product[0]?.info?.cut}</Typography>
-        </Paper>
+        <Typography variant="h5" sx={{ paddingLeft: 2 }}>
+          Откъде идва месото
+        </Typography>
+        <Typography sx={{ padding: 2 }}>{product[0]?.info?.cut}</Typography>
       </Grid>
       <Grid item xs={12} md={6}>
-        <Paper>
-          <img
-            src={product[0]?.info?.diagram}
-            alt="Sample"
-            style={{
-              width: '100%',
-              height: 'auto',
-              maxWidth: '100%',
-              maxHeight: '500px',
-              objectFit: 'cover',
-            }}
-          />
-        </Paper>
+        <img
+          src={product[0]?.info?.diagram}
+          alt="Sample"
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxWidth: '100%',
+            maxHeight: '500px',
+            objectFit: 'cover',
+          }}
+        />
       </Grid>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell> 100g serving</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow
-              key={product[0]?.title}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {product[0]?.title}
-              </TableCell>
-              <TableCell align="right">{product[0]?.info?.calories}</TableCell>
-              <TableCell align="right">{product[0]?.info?.fats}</TableCell>
-              <TableCell align="right">{product[0]?.info?.carbs}</TableCell>
-              <TableCell align="right">{product[0]?.info?.proteins}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Grid item xs={12}>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell> 100g serving</TableCell>
+                <TableCell align="right">Calories</TableCell>
+                <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  {product[0]?.title}
+                </TableCell>
+                <TableCell align="right">
+                  {product[0]?.info?.calories}
+                </TableCell>
+                <TableCell align="right">{product[0]?.info?.fats}</TableCell>
+                <TableCell align="right">{product[0]?.info?.carbs}</TableCell>
+                <TableCell align="right">
+                  {product[0]?.info?.proteins}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
     </Grid>
   );
 };
