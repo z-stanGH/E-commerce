@@ -9,7 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, ButtonBase, Grid, Tooltip } from '@mui/material';
+import { Box, Button, ButtonBase, Grid, Tooltip } from '@mui/material';
 import { addToCart } from '../../Services/products.services';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { auth } from '../../Config/firebase-config';
@@ -45,6 +45,9 @@ export default function ProductsView({ products }) {
       columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       sx={{ padding: 2 }}
     >
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <Typography>Explore our quality products</Typography>
+      </Box>
       {products
         .sort(function (a, b) {
           const keyA = a.id,
@@ -86,7 +89,13 @@ export default function ProductsView({ products }) {
                 <Tooltip disableFocusListener title="Add to cart">
                   <IconButton
                     aria-label="add to cart"
-                    onClick={() => addToCart(auth?.currentUser?.uid, item.id)}
+                    onClick={() => {
+                      if (auth?.currentUser?.uid) {
+                        addToCart(auth?.currentUser?.uid, item.id);
+                      } else {
+                        navigate('/login');
+                      }
+                    }}
                   >
                     <AddShoppingCartIcon />
                   </IconButton>
