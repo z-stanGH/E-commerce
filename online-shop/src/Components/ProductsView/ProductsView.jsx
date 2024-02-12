@@ -46,7 +46,9 @@ export default function ProductsView({ products }) {
       sx={{ padding: 2 }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-        <Typography>Explore our quality products</Typography>
+        <Typography variant="h3" sx={{ color: '#023620' }}>
+          Explore our quality products
+        </Typography>
       </Box>
       {products
         .sort(function (a, b) {
